@@ -123,3 +123,4 @@ OPENROUTER_API_KEY=sk-or-v1-...
 - [ ] Implement intent-specific entity extraction (order IDs, tracking numbers, etc.).
 - [ ] Add evaluation dataset with labeled examples for regression testing.
 - [ ] Support confidence calibration for production monitoring.
+- [ ] Add LLM fallback
