@@ -2,6 +2,7 @@ import os
 from typesafe_sdk import TypeSafeClient
 from dotenv import load_dotenv
 from classifier import IntentClassifier
+from domain import Turn
 
 load_dotenv()
 
@@ -16,6 +17,14 @@ def main():
 
     intent_classifier = IntentClassifier(client=client)
     result = intent_classifier.classify(user_message)
+
+    print(result)
+
+    history = [
+        Turn(role="user", content="My package was supposed to arrive yesterday."),
+        Turn(role="assistant", content="Sorry about that! How can I help?"),
+    ]
+    result = intent_classifier.classify("I just want my money back", history=history)
 
     print(result)
 
