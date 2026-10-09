@@ -62,11 +62,24 @@ IntentResult(
 ```
 
 
+### Multi-turn context
+
+Pass prior turns via `history` to disambiguate short or ambiguous follow-ups. Only the latest `message` is classified; history is used as context.
+
+```python
+history = [
+    Turn(role="user", content="My package was supposed to arrive yesterday."),
+    Turn(role="assistant", content="Sorry about that! How can I help?"),
+]
+classifier.classify("I just want my money back", history=history)
+```
+
+
 ## Architecture
 
 ```
 main.py
-  -> IntentClassifier.classify(message)
+  -> IntentClassifier.classify(message, history)
      -> TypeSafeClient.system_one()
         -> JEV Model (OpenRouter API)
      <- IntentResult
@@ -76,6 +89,7 @@ main.py
 ### Components
 
 1. **`domain.py`** — Pydantic models defining the intent schema and descriptions.
+   - `Turn`: A prior conversation turn (`user` or `assistant`) used as context.
    - `IntentResult`: Structured output with intent, confidence, and probabilities.
    - `INTENTS`: Mapping of intent labels to human-readable descriptions.
 
@@ -119,7 +133,6 @@ OPENROUTER_API_KEY=sk-or-v1-...
 
 ## TODO List
 
-- [ ] Add multi-turn conversation context for improved intent disambiguation.
 - [ ] Implement intent-specific entity extraction (order IDs, tracking numbers, etc.).
 - [ ] Add evaluation dataset with labeled examples for regression testing.
 - [ ] Support confidence calibration for production monitoring.

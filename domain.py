@@ -2,6 +2,11 @@ from pydantic import BaseModel
 from typing import Literal
 
 
+class Turn(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str
+
+
 class IntentResult(BaseModel):
     intent: Literal[
         "order_status", 
